@@ -65,7 +65,7 @@ unpredictable unless the state still holds the cue. The environment tags it
 | 3 | **Retention probes** | linear decodability of the cue from `h_t` vs. delay, with an observation-only control |
 | 4 | Control | real-environment return with the CMA-ES controller |
 | 5 | Cost | parameters, latency, throughput, peak RSS |
-| — | Continual learning | implemented, **not run** (see §5) |
+| — | Continual learning | implemented, **not run** (see §6) |
 
 **Instrument validation.** 7 of the 25 tests in `code/tests/` exist to validate
 the measurement apparatus rather than the code: the open-loop harness is checked
@@ -78,7 +78,68 @@ against the closed-form Gaussian, and every backbone must satisfy
 
 ---
 
-## 2. Headline results
+## 2. Verification — three checks run while assembling this repository
+
+Stated up front because they are what the reviewer request is really asking
+about: not only *are* the code and data here, but *can the reported numbers be
+recovered from them*. Each check is reproducible with the commands in
+[REPRODUCE.md](REPRODUCE.md).
+
+### 2.1 Dataset regeneration is bit-exact
+
+The 2.21 GB frame store is not shipped (see §5), on the grounds that it is
+reproducible. We tested that claim rather than relying on it: a dataset was
+regenerated from scratch and hashed against the original, giving **identical
+SHA-256** for both `obs.npy` and `action.npy`.
+
+Rollout *i* is seeded `base_seed + i` independently of which worker process
+handles it, so regeneration does not depend on core count either.
+`data/checksums.sha256` carries the digests for all five datasets, so a reviewer
+can confirm the same thing:
+
+```bash
+cd code && python wm.py collect -c configs/tmaze_hard.yaml --seed 0
+cd runs/data && shasum -a 256 -c ../../../data/checksums.sha256
+```
+
+### 2.2 The shipped checkpoints reproduce the reported numbers
+
+Optimiser state was stripped from every checkpoint (297 MB → 94 MB). To confirm
+that is lossless for evaluation rather than merely assume it, the full benchmark
+was re-run from a stripped checkpoint and compared against the committed
+`bench.json`:
+
+| metric | from stripped checkpoint | shipped `bench.json` |
+|---|---|---|
+| decision accuracy | 1.000000 | 1.000000 |
+| NLL @ memory-critical | 14.641197 | 14.641197 |
+| NLL, 1-step | 15.831006 | 15.831006 |
+| effective memory horizon | 32 | 32 |
+
+Identical to six decimal places. The checkpoints are therefore good for
+verification, though not for resuming training.
+
+### 2.3 The loss-weight sweep was lost, re-run, and reproduced exactly
+
+The artefacts behind the paper's loss-weight (λ) table had been deleted. Rather
+than cite a table with no backing data, the sweep was re-run end to end — fresh
+*V* training, fresh latent encoding, fresh memory training — and it reproduces
+the submitted table on **every cell**:
+
+| λ | decision accuracy | NLL @ memory-critical | NLL all steps | probe at decision |
+|---|---|---|---|---|
+| 1 | 0.500 | 25.53 | 13.16 | 0.44 |
+| 20 | 1.000 | 19.42 | 12.76 | 1.00 |
+| 100 | 1.000 | 13.68 | 12.49 | 1.00 |
+
+Artefacts in `results/lambda_sweep/`, data in
+`data/TMaze-v0_corridor_length6_.../`, configuration in
+`code/configs/tmaze_lambda.yaml`. A missing-data gap became a reproducibility
+result.
+
+---
+
+## 3. Headline results
 
 `TMaze-v0`, corridor 32 (a 32-step required memory horizon), 2 seeds,
 mean ± s.e.m. Every column shares the same data, the same frozen *V*, the same
@@ -133,7 +194,7 @@ of the suite, not of the models.
 
 ---
 
-## 3. Compute and environment
+## 4. Compute and environment
 
 Every number in this repository was produced on **one laptop**. No cluster, no
 accelerator beyond the integrated GPU.
@@ -182,15 +243,15 @@ all of it Supreme's memory training.
 
 | | |
 |---|---|
-| Raw frame store generated | **≈2.5 GB** across 5 datasets (64×64×3 uint8, memory-mapped) |
-| Frames **shipped** here | none — regenerable bit-exactly, see §4 |
+| Raw frame store generated | **≈2.2 GB** across 5 datasets (64×64×3 uint8, memory-mapped) |
+| Frames **shipped** here | none — regenerable bit-exactly, see §2 |
 | Latents / actions / labels shipped | **46 MB** (what *M* actually consumed) |
 | Trained weights shipped | **94 MB** (optimiser state stripped) |
 | Benchmark artefacts shipped | 2.1 MB |
 
 ---
 
-## 4. Repository layout
+## 5. Repository layout
 
 ```
 code/                      the full implementation (60 Python files)
@@ -230,7 +291,8 @@ paper/                     supreme.tex and the auto-generated results_tables.tex
 
 ### Why the frames are not shipped, and why that is safe
 
-The frame store is 2.2 GB and is **bit-exactly reproducible**. Rollout *i* is
+The frame store is 2.21 GB across five datasets and is **bit-exactly
+reproducible**. Rollout *i* is
 seeded `base_seed + i` independently of worker assignment, so regeneration is
 deterministic and worker-count-independent. We verified this rather than assuming
 it: regenerating a dataset from scratch and hashing it against the original gives
@@ -263,9 +325,9 @@ never sees.
 
 ### The checkpoints are verified, not just shipped
 
-Optimiser state was stripped (297 MB → 94 MB). We confirmed this is lossless for
-evaluation by re-running the benchmark from a stripped checkpoint and comparing
-against the shipped result:
+Optimiser state was stripped (297 MB → 94 MB) and confirmed lossless for
+evaluation by re-running the benchmark from a stripped checkpoint — see §2.2.
+The comparison, repeated here for convenience:
 
 | metric | from stripped checkpoint | shipped `bench.json` |
 |---|---|---|
@@ -276,7 +338,7 @@ against the shipped result:
 
 ---
 
-## 5. What is *not* here — read this
+## 6. What is *not* here — read this
 
 The gaps are as load-bearing as the results, and a reviewer will find them
 anyway.
@@ -354,7 +416,7 @@ fell from 1.000 to chance while the training curve looked healthy for the first
 
 ---
 
-## 6. Reproducing
+## 7. Reproducing
 
 See [REPRODUCE.md](REPRODUCE.md) for exact commands. The short version:
 

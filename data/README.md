@@ -19,7 +19,7 @@ Directory names are the **exact** names the code generates
 ## What is omitted, and why that is safe
 
 `obs.npy` — the raw 64×64×3 uint8 frame store — is **not** shipped. It is 2.2 GB
-across these four datasets, and it is bit-exactly reproducible.
+across these five datasets, and it is bit-exactly reproducible.
 
 Rollout *i* is seeded `base_seed + i` independently of which worker process
 handles it, so regeneration is deterministic and does not depend on core count.

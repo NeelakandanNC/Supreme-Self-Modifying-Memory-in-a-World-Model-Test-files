@@ -79,7 +79,7 @@ for path in ('decision.accuracy', 'teacher_forced.nll_memory_critical',
 EOF
 ```
 
-We ran exactly this and got identical values to six decimal places — see §4 of
+We ran exactly this and got identical values to six decimal places — see §2.2 of
 the README.
 
 > **Note on `data.root`.** The shipped dataset directories keep the *exact* names
@@ -144,7 +144,7 @@ python wm.py study -c configs/tmaze_hard.yaml \
 
 `supreme-cms` and `hope-attention` are ≈1 min each. `supreme-titans` runs the
 same per-timestep inner optimisation as `supreme` and costs ≈55 min per seed —
-it is the one ablation we did not run (README §5).
+it is the one ablation we did not run (README §6).
 
 ### CarRacing
 
@@ -193,7 +193,7 @@ binary cue) against a per-step NLL of ≈25. At weight 1.0 a converged model
 predicts the *midpoint* of the two possible successors and every memory core
 scores at chance — the benchmark has no headroom. The memory configs ship
 weight 20, applied identically to both arms. See `results/lambda_sweep/` for the
-measurement and README §5 for the disclosure.
+measurement and README §6 for the disclosure.
 
 ---
 

@@ -34,7 +34,7 @@ files the benchmark wrote.
 ## What is deliberately absent
 
 **Corridor-16 `supreme` and `supreme-titans`.** A stability fix to the Titans
-recurrence (a projection onto a Frobenius ball — see the top README §5 and
+recurrence (a projection onto a Frobenius ball — see the top README §6 and
 `code/Supreme/titans.py`) changed what `supreme` computes. Those two runs predate
 it, so they are **not reproducible from the shipped code** and are not presented
 here as results. Shipping an artefact the accompanying code cannot reproduce is
@@ -45,4 +45,4 @@ every epoch. Every `supreme` artefact in this directory has it.
 
 **`attention` at corridor 32**, **`supreme-titans` on current code**,
 `SequenceRecall-v0`, the continual-learning protocol, and the corridor sweep were
-not run at all. See the top-level README §5.
+not run at all. See the top-level README §6.
