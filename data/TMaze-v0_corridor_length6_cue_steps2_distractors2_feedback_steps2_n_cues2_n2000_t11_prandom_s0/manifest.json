@@ -1,0 +1,23 @@
+{
+  "spec": {
+    "n_rollouts": 2000,
+    "steps": 11,
+    "image_size": 64,
+    "action_dim": 2
+  },
+  "env": {
+    "id": "TMaze-v0",
+    "kwargs": {
+      "corridor_length": 6,
+      "n_cues": 2,
+      "distractors": 2,
+      "cue_steps": 2,
+      "feedback_steps": 2
+    },
+    "image_size": 64,
+    "action_repeat": 1
+  },
+  "policy": "random",
+  "seed": 0,
+  "n_rollouts": 2000
+}

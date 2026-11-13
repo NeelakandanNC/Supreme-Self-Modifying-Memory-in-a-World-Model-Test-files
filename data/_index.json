@@ -1,0 +1,37 @@
+[
+  {
+    "label": "carracing",
+    "dir": "CarRacing-v0_n150_t250_prandom_s0",
+    "shipped": "latents.npz, action.npy, meta.npz, manifest.json",
+    "shipped_mb": 10.1,
+    "obs_mb": 461
+  },
+  {
+    "label": "tmaze_corridor16",
+    "dir": "TMaze-v0_corridor_length16_cue_steps2_distractors3_feedback_steps2_n_cues2_n1500_t21_prandom_s0",
+    "shipped": "latents.npz, action.npy, meta.npz, manifest.json",
+    "shipped_mb": 8.3,
+    "obs_mb": 387
+  },
+  {
+    "label": "tmaze_corridor32_seed0",
+    "dir": "TMaze-v0_corridor_length32_cue_steps2_distractors3_feedback_steps2_n_cues2_n1200_t37_prandom_s0",
+    "shipped": "latents.npz, action.npy, meta.npz, manifest.json",
+    "shipped_mb": 11.7,
+    "obs_mb": 546
+  },
+  {
+    "label": "tmaze_corridor32_seed1",
+    "dir": "TMaze-v0_corridor_length32_cue_steps2_distractors3_feedback_steps2_n_cues2_n1200_t37_prandom_s1",
+    "shipped": "latents.npz, action.npy, meta.npz, manifest.json",
+    "shipped_mb": 11.7,
+    "obs_mb": 546
+  },
+  {
+    "label": "lambda_sweep_corridor6",
+    "dir": "TMaze-v0_corridor_length6_cue_steps2_distractors2_feedback_steps2_n_cues2_n2000_t11_prandom_s0",
+    "shipped": "latents.npz, action.npy, meta.npz, manifest.json",
+    "shipped_mb": 5.8,
+    "obs_mb": 270
+  }
+]

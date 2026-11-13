@@ -1,0 +1,44 @@
+# Loss-weight ablation: how much does the world-model objective reward remembering?
+#
+# Short corridor (6) on purpose. The point of this configuration is NOT to be a
+# hard memory task -- it is the setting in which an LSTM core *can* solve the
+# task when the objective asks it to, so that sweeping
+# `memory.critical_loss_weight` isolates the incentive rather than the capacity.
+#
+# Sweep with:
+#   for W in 1 20 100; do
+#     python wm.py study -c configs/tmaze_lambda.yaml --backbones lstm \
+#       --no-control -o out_dir=results/lambda_w$W -o memory.critical_loss_weight=$W
+#   done
+_base_: base.yaml
+
+name: baseline
+env:
+  id: TMaze-v0
+  max_episode_steps: 11
+  kwargs:
+    corridor_length: 6
+    n_cues: 2
+    distractors: 2
+    cue_steps: 2
+    feedback_steps: 2
+
+data:
+  n_rollouts: 2000
+  steps_per_rollout: 11
+  val_fraction: 0.15
+  sequence_length: 11          # MUST span cue -> decision
+  eval_sequence_length: 11
+  frames_in_ram: 40000
+
+vision:
+  epochs: 8
+
+memory:
+  critical_loss_weight: 20     # overridden by the sweep
+  epochs: 60
+  batch_size: 64
+
+bench:
+  horizons: [1, 2, 4]
+  probe_delays: [0, 1, 2, 4, 6]

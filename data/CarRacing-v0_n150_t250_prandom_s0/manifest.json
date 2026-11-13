@@ -1,0 +1,17 @@
+{
+  "spec": {
+    "n_rollouts": 150,
+    "steps": 250,
+    "image_size": 64,
+    "action_dim": 3
+  },
+  "env": {
+    "id": "CarRacing-v0",
+    "kwargs": {},
+    "image_size": 64,
+    "action_repeat": 2
+  },
+  "policy": "random",
+  "seed": 0,
+  "n_rollouts": 150
+}

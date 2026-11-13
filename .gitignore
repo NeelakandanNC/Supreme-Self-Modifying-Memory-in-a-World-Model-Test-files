@@ -1,0 +1,17 @@
+# Virtualenvs and caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local run output. The committed evidence lives in results/; this keeps a
+# reviewer's own re-runs from being accidentally added.
+code/runs/
+code/runs_*/
+*.log
+
+# Frame stores are regenerable and large (~2.2 GB); see data/README.md.
+**/obs.npy
+
+# macOS
+.DS_Store

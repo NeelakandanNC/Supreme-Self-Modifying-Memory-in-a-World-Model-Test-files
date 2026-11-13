@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "name": "lstm",
+    "backbone": "lstm",
+    "backbone_kwargs": {},
+    "seed": 0,
+    "env": "TMaze-v0",
+    "env_kwargs": {
+      "corridor_length": 6,
+      "n_cues": 2,
+      "distractors": 2,
+      "cue_steps": 2,
+      "feedback_steps": 2
+    },
+    "train_seq_len": 11,
+    "eval_seq_len": 11,
+    "device": {
+      "device": "mps",
+      "torch": "2.13.0",
+      "platform": "macOS-27.2-arm64-arm-64bit",
+      "machine": "arm64",
+      "python": "3.12.12",
+      "cpu_count": 10,
+      "mps_built": true
+    },
+    "dataset": {
+      "n_rollouts": 2000,
+      "steps": 11,
+      "frames": 22000,
+      "disk_gb": 0.27,
+      "return_mean": -0.028999999165534973,
+      "return_std": 0.9995793700218201,
+      "memory_critical_steps": 2000,
+      "cue_entropy_bits": 0.9990122498008038
+    }
+  },
+  "decision": {
+    "accuracy": 1.0,
+    "n": 300,
+    "margin": 2.000088848331795,
+    "chance": 0.5,
+    "positive_rate": 0.5033333333333333
+  },
+  "teacher_forced": {
+    "nll_1step": 12.487320149739583,
+    "mse_1step": 0.1319561513264974,
+    "n_steps": 3000,
+    "nll_memory_critical": 13.683356119791666,
+    "n_memory_critical": 300
+  },
+  "length_extrapolation": {
+    "not_applicable": true,
+    "reason": "training windows must span the full episode on this environment; vary corridor_length to test extrapolation"
+  },
+  "imagination": {
+    "horizons": [
+      1,
+      2,
+      4
+    ],
+    "mse_at_horizon": {
+      "1": 0.07096637646357218,
+      "2": 0.08664036273956299,
+      "4": 0.017423412203788756
+    },
+    "mse_mean_upto": {
+      "1": 0.07096637646357218,
+      "2": 0.07880336960156759,
+      "4": 0.07231448357303936
+    },
+    "mse_step": [
+      0.07096637646357218,
+      0.08664036273956299,
+      0.11422778288523357,
+      0.017423412203788756
+    ],
+    "nll_at_horizon": {
+      "1": 12.610673217773437,
+      "2": 14.042369995117188,
+      "4": 13.685775960286458
+    },
+    "nll_step": [
+      12.610673217773437,
+      14.042369995117188,
+      13.709684244791667,
+      13.685775960286458
+    ],
+    "context": 5,
+    "sample": false,
+    "max_valid_step": 4,
+    "drift_slope": -0.3936745328611254
+  },
+  "imagination_sampled": {
+    "horizons": [
+      1,
+      2,
+      4
+    ],
+    "mse_at_horizon": {
+      "1": 0.09383458085358143,
+      "2": 0.11278893239796162,
+      "4": 0.02801712602376938
+    },
+    "mse_mean_upto": {
+      "1": 0.09383458085358143,
+      "2": 0.10331175662577152,
+      "4": 0.09385727625340223
+    },
+    "mse_step": [
+      0.09383458085358143,
+      0.11278893239796162,
+      0.1407884657382965,
+      0.02801712602376938
+    ],
+    "nll_at_horizon": {
+      "1": 12.665754556655884,
+      "2": 14.089003562927246,
+      "4": 13.737480878829956
+    },
+    "nll_step": [
+      12.665754556655884,
+      14.089003562927246,
+      13.77939748764038,
+      13.737480878829956
+    ],
+    "context": 5,
+    "sample": true,
+    "max_valid_step": 4,
+    "drift_slope": -0.3404412157268548
+  },
+  "probes": {
+    "delays": [
+      0,
+      1,
+      2,
+      4,
+      6
+    ],
+    "probe_h": {
+      "0": {
+        "accuracy": 1.0,
+        "chance": 0.5466666666666666,
+        "n": 600,
+        "n_test": 150
+      },
+      "1": {
+        "accuracy": 1.0,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      },
+      "2": {
+        "accuracy": 1.0,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      },
+      "4": {
+        "accuracy": 1.0,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      },
+      "6": {
+        "accuracy": 1.0,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      }
+    },
+    "probe_z": {
+      "0": {
+        "accuracy": 1.0,
+        "chance": 0.5466666666666666,
+        "n": 600,
+        "n_test": 150
+      },
+      "1": {
+        "accuracy": 0.5066666666666667,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      },
+      "2": {
+        "accuracy": 0.41333333333333333,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      },
+      "4": {
+        "accuracy": 0.48,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      },
+      "6": {
+        "accuracy": 0.44,
+        "chance": 0.5466666666666666,
+        "n": 300,
+        "n_test": 75
+      }
+    },
+    "effective_memory_horizon": 6,
+    "auc_h": 1.0,
+    "auc_z": 0.5680000000000001
+  },
+  "cost": {
+    "params_total": 422882,
+    "params_backbone": 299008,
+    "params_head": 123360,
+    "params_breakdown": {
+      "backbone": 299008,
+      "head": 123360,
+      "reward_head": 257,
+      "done_head": 257,
+      "__total__": 422882
+    },
+    "inference_step_ms": 0.707,
+    "inference_step_p90_ms": 0.9291,
+    "train_pass_ms": 1.493,
+    "throughput_steps_per_s": 471678.7,
+    "peak_rss_mb": 472.6,
+    "device": "mps"
+  }
+}
